@@ -1,16 +1,97 @@
 import $ from 'jquery';
 import { API, Storage } from 'aws-amplify';
-
+import _ from 'underscore';
 import {Form} from 'enketo-core/src/js/form';
 import axios from 'axios';
 
 import React, {Component} from "react"
 import './Survey.css';
 
+let eform;
 // import data from 'https://s3.amazonaws.com/forms-app-xslx-dev/public/access.json';
+
+
+const getRecordForCompletedForm = (form, formName) => {
+  const record = form.getDataStr({ irrelevant: false });
+  return {
+    form: formName,
+    type: 'data_record',
+    content_type: 'xml',
+    // reported_date: now ? now.getTime() : Date.now(),
+    // contact: ExtractLineage(contact),
+    // from: contact && contact.phone,
+    fields: reportRecordToJs(record, form),
+  };
+};
+
+/* Enketo-Translation reportRecordToJs */
+const reportRecordToJs = function(record, formXml) {
+  var root = $.parseXML(record).firstChild;
+  if (!formXml) {
+    return nodesToJs(root.childNodes);
+  }
+  var repeatPaths = $(formXml)
+    .find('repeat[nodeset]')
+    .map(function() {
+      return $(this).attr('nodeset');
+    })
+    .get();
+  return nodesToJs(root.childNodes, repeatPaths, '/' + root.nodeName);
+};
+
+const nodesToJs = function(data, repeatPaths, path) {
+  repeatPaths = repeatPaths || [];
+  path = path || '';
+  var result = {};
+  withElements(data)
+    .each(function(n) {
+      var dbDocAttribute = n.attributes.getNamedItem('db-doc');
+      if (dbDocAttribute && dbDocAttribute.value === 'true') {
+        return;
+      }
+
+      var typeAttribute = n.attributes.getNamedItem('type');
+      var updatedPath = path + '/' + n.nodeName;
+      var value;
+
+      var hasChildren = withElements(n.childNodes).size().value();
+      if(hasChildren) {
+        value = nodesToJs(n.childNodes, repeatPaths, updatedPath);
+      } else if (typeAttribute && typeAttribute.value === 'binary') {
+        // this is attached to the doc instead of inlined
+        value = '';
+      } else {
+        value = n.textContent;
+      }
+
+      if (repeatPaths.indexOf(updatedPath) !== -1) {
+        if (!result[n.nodeName]) {
+          result[n.nodeName] = [];
+        }
+        result[n.nodeName].push(value);
+      } else {
+        result[n.nodeName] = value;
+      }
+    });
+  return result;
+};
+
+function withElements(nodes) {
+  return _.chain(nodes)
+    .filter(function(n) {
+      return n.nodeType === Node.ELEMENT_NODE;
+    });
+}
+
 
 class Survey extends Component {
   state = { form: '', model: ''};
+
+  handleSubmit(event) {
+    event.preventDefault();
+    console.log(eform);
+    console.log(getRecordForCompletedForm(eform, 'some-name'));
+  }
 
   bindDataToModel(model, data) {
     // const xmlModel = $($.parseXML(model));
@@ -45,14 +126,13 @@ class Survey extends Component {
           const enketoOptions = {
             modelStr: model,
             instanceStr: this.bindDataToModel(model, content),
-            external: undefined,
-            // external: contactSummary ? [ contactSummary ] : undefined,
+            external: undefined
           };
 
-          $('.container').first().html($html);
-          //
+          $('.container').replaceWith($html);
+
           const element = $('#form').find('form').first();
-          const eform = new Form(element, enketoOptions);
+          eform = new Form(element, enketoOptions);
           const loadErrors = eform.init();
           if (loadErrors && loadErrors.length) {
             console.log('Load Errors', JSON.stringify(loadErrors));
@@ -63,7 +143,6 @@ class Survey extends Component {
       .catch(err => {
         console.log('Error downloading file!', err);
       });
-
   }
 
   render() {
@@ -74,9 +153,6 @@ class Survey extends Component {
           <li>Survey Submissions</li>
         </ul>
         <div className="main">
-          <div className="nav">
-            <div id='formList'></div>
-          </div>
           <div className="container pages"></div>
 
           <section className="form-footer end">
@@ -90,7 +166,7 @@ class Survey extends Component {
                     </label>
                   </div>
                 </fieldset>
-                <button className="btn btn-primary" id="submit-form">
+                <button onClick={this.handleSubmit} className="btn btn-primary" id="submit-form">
                   <i className="icon icon-check"> </i>Submit
                 </button>
                 <a className="btn btn-primary next-page disabled" href="#">Next</a>
