@@ -1,0 +1,24 @@
+.Uploader {
+  background-color: #ddd;
+  padding: 1em 0;
+}
+
+.Uploader-Content {
+  width: 14em;
+  margin: 0 auto;
+}
+
+.Uploader-Content > input {
+  display: inline-block;
+  /*border: 1px solid red;*/
+  margin: .5em;
+  cursor: pointer;
+}
+
+.Uploader-Content > button {
+  background-color: #222;
+  color: #fff;
+  padding: .5em 1em;
+  border-radius: .3em;
+  cursor: pointer;
+}
