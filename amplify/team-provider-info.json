@@ -1,0 +1,19 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "forms-app-20190414152913-authRole",
+            "UnauthRoleArn": "arn:aws:iam::751944824385:role/forms-app-20190414152913-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::751944824385:role/forms-app-20190414152913-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "forms-app-20190414152913-deployment",
+            "UnauthRoleName": "forms-app-20190414152913-unauthRole",
+            "StackName": "forms-app-20190414152913",
+            "StackId": "arn:aws:cloudformation:us-east-1:751944824385:stack/forms-app-20190414152913/5abbd6e0-5efc-11e9-a35b-121328bc7b22"
+        },
+        "categories": {
+            "auth": {
+                "cognitoa58047eb": {}
+            }
+        }
+    }
+}

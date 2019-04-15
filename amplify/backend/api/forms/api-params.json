@@ -1,0 +1,41 @@
+{
+    "paths": [
+        {
+            "name": "/forms",
+            "lambdaFunction": "formsfunction",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            }
+        }
+    ],
+    "resourceName": "forms",
+    "apiName": "forms",
+    "functionArns": [
+        {
+            "lambdaFunction": "formsfunction"
+        }
+    ],
+    "privacy": {
+        "auth": 1,
+        "unauth": 0,
+        "authRoleName": "forms-app-20190414152913-authRole",
+        "unAuthRoleName": "forms-app-20190414152913-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "formsfunction",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}
