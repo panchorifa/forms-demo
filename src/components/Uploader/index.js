@@ -1,4 +1,5 @@
 import React, {Component} from "react"
+import { Storage } from 'aws-amplify';
 import './Uploader.css';
 
 class Uploader extends Component {
