@@ -1,24 +1,24 @@
-.Uploader {
+.uploader {
   background-color: #ddd;
   padding: 1em 0;
 }
 
-.Uploader-Content {
+.uploader .content {
   width: 14em;
   margin: 0 auto;
 }
 
-.Uploader-Content > input {
+.uploader > input {
   display: inline-block;
-  /*border: 1px solid red;*/
   margin: .5em;
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
-.Uploader-Content > button {
-  background-color: #222;
+.uploader .content > button {
+  background-color: #007aff;
   color: #fff;
+  margin: 1em;
   padding: .5em 1em;
   border-radius: .3em;
-  cursor: pointer;
+  cursor: pointer !important;
 }

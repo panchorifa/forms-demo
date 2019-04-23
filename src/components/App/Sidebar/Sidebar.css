@@ -1,0 +1,49 @@
+a.active {
+  background-color: #555;
+}
+
+a.active .nav-icon .fa{
+  background-color: #000;
+  color: #fff;
+}
+
+a.active > .fa{
+  color: #fff;
+}
+
+a.active > .nav-text{
+  color: #fff;
+}
+
+/*
+--blue: #007AFF;
+--indigo: #640DF3;
+--purple: #9805ff;
+--pink: #FF2D55;
+--red: #FF3B30;
+--orange: #FF9500;
+--yellow: #FFCC00;
+--green: #1ABD36;
+--teal: #0cd096;
+--cyan: #30beff;
+--gray: #6c757d;
+--gray-dark: #343a40;
+--primary: #007AFF;
+--secondary: #6c757d;
+--success: #1ABD36;
+--info: #30beff;
+--warning: #FF9500;
+--danger: #FF3B30;
+--light: #f8f9fa;
+--dark: #343a40;
+--black: #000000;
+--white: #FFFFFF;
+--muted: #8A8A8F;
+--silver: #8A8A8F;
+--breakpoint-xs: 0;
+--breakpoint-sm: 576px;
+--breakpoint-md: 768px;
+--breakpoint-lg: 992px;
+--breakpoint-xl: 1200px;
+--breakpoint-xxl: 1660px;
+--breakpoint-xxxl: 1900px;*/

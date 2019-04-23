@@ -1,0 +1,58 @@
+{
+  "_from": "datatables.net-autofill-bs4@^2.3.2",
+  "_id": "datatables.net-autofill-bs4@2.3.2",
+  "_inBundle": false,
+  "_integrity": "sha512-CF3PVbEM2zinduDM+R+8cGKfCpvqCP4r5uScV2fD8yVF3WZWCv5C+Gdso4CxnHD4dHtjWCZY8/Oppzu99mKCdg==",
+  "_location": "/datatables.net-autofill-bs4",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "datatables.net-autofill-bs4@^2.3.2",
+    "name": "datatables.net-autofill-bs4",
+    "escapedName": "datatables.net-autofill-bs4",
+    "rawSpec": "^2.3.2",
+    "saveSpec": null,
+    "fetchSpec": "^2.3.2"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/datatables.net-autofill-bs4/-/datatables.net-autofill-bs4-2.3.2.tgz",
+  "_shasum": "1e7c0c3d7d6bd814d56bf17f79e438eef2a69679",
+  "_spec": "datatables.net-autofill-bs4@^2.3.2",
+  "_where": "/Users/ngunguoksiong/Sites/bootstrap/admetro/admetro_v1.0/admin/template",
+  "author": {
+    "name": "SpryMedia Ltd",
+    "url": "http://datatables.net"
+  },
+  "bugs": {
+    "url": "https://datatables.net/forums"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "datatables.net-autofill": "2.3.2",
+    "datatables.net-bs4": "^1.10.15",
+    "jquery": ">=1.7"
+  },
+  "deprecated": false,
+  "description": "AutoFill for DataTables with styling for [Bootstrap 4](http://getbootstrap.com/)",
+  "files": [
+    "css/**/*.css",
+    "js/**/*.js"
+  ],
+  "homepage": "https://datatables.net",
+  "keywords": [
+    "autofill",
+    "excel",
+    "DataTables",
+    "jQuery",
+    "table",
+    "Bootstrap 4"
+  ],
+  "license": "MIT",
+  "main": "js/autoFill.bootstrap4.js",
+  "name": "datatables.net-autofill-bs4",
+  "style": "css/autoFill.bootstrap4.css",
+  "version": "2.3.2"
+}

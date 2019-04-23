@@ -1,0 +1,67 @@
+{
+  "_from": "pwstrength-bootstrap@^3.0.1",
+  "_id": "pwstrength-bootstrap@3.0.2",
+  "_inBundle": false,
+  "_integrity": "sha512-YJzErx46153s05FjAkyBNwk71e9LZLTA3CpY4QmFUEueD+urCOldmh9Olyp80yVCwbNSNvYxZn47otxskQjSQA==",
+  "_location": "/pwstrength-bootstrap",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "pwstrength-bootstrap@^3.0.1",
+    "name": "pwstrength-bootstrap",
+    "escapedName": "pwstrength-bootstrap",
+    "rawSpec": "^3.0.1",
+    "saveSpec": null,
+    "fetchSpec": "^3.0.1"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/pwstrength-bootstrap/-/pwstrength-bootstrap-3.0.2.tgz",
+  "_shasum": "ebd878520b81ae04865ab87da04ba8dc49e188ee",
+  "_spec": "pwstrength-bootstrap@^3.0.1",
+  "_where": "/Users/ngunguoksiong/Sites/bootstrap/admetro/admetro_v1.0/admin/template",
+  "author": {
+    "name": "Alejandro Blanco",
+    "email": "alejandro.b.e@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/ablanco/jquery.pwstrength.bootstrap/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "bootstrap": ">=2.0.0",
+    "jquery": ">=3.0.0"
+  },
+  "deprecated": false,
+  "description": "jQuery plugin for Twitter Bootstrap that provides rulesets for visualy displaying the quality of a users typed in password.",
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-contrib-concat": "~1.0.1",
+    "grunt-contrib-uglify": "^4.0.0",
+    "grunt-jasmine-node": "~0.3.1",
+    "grunt-jslint": "1.1.14",
+    "grunt-shell": "~3.0.1",
+    "jsdom": "~9.11.0"
+  },
+  "homepage": "https://github.com/ablanco/jquery.pwstrength.bootstrap",
+  "keywords": [
+    "bootstrap",
+    "password",
+    "strength",
+    "meter",
+    "jquery-plugin",
+    "ecosystem:jquery"
+  ],
+  "license": "(GPL-3.0 OR MIT)",
+  "name": "pwstrength-bootstrap",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ablanco/jquery.pwstrength.bootstrap.git"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "version": "3.0.2"
+}

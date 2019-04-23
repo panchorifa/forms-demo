@@ -60,7 +60,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "forms-app-20190414152913-deployment",
-					"S3Key": "amplify-builds/formsfunction-1555282437-latest-build.zip"
+					"S3Key": "amplify-builds/formsfunction-1556023630-latest-build.zip"
 				}
 			}
 		},

@@ -19,6 +19,7 @@ app.use(awsServerlessExpressMiddleware.eventContext())
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+  res.header("Content-Type", "application/json")
   next()
 });
 
@@ -26,12 +27,32 @@ app.use(function(req, res, next) {
 /**********************
  * Example get method *
  **********************/
-// var axios = require('axios');
+var axios = require('axios');
 app.get('/forms', function(req, res) {
-  const forms = [
-    {id: 'access.xml', status: 'xlsx'}
-  ];
-  res.json({forms});
+  axios({
+    method: 'OPTIONS',
+    url:'https://rzo0730hr3.execute-api.us-east-1.amazonaws.com/dev/xforms',
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+      "Content-Type": "application/json"
+    }
+  })
+    .then(forms => {
+      // const forms = response;//.data.results;
+      res.json({error: null, forms});
+    })
+    .catch(err => {
+      res.json({error: err, forms: []});
+    });
+
+  // const forms = [
+  //   {id: 'access.xml', name: 'Access', status: 'xlsx'},
+  //   {id: 'combine.xml', name: 'Combined', status: 'xlsx'},
+  //   {id: 'coord.xml', name: 'Coord', status: 'xlsx'},
+  //   {id: 'cluster.xml', name: 'Cluster', status: 'xlsx'},
+  // ];
+  // res.json({forms});
 });
 
 app.get('/forms/*', function(req, res) {

@@ -3,7 +3,7 @@ import { Storage } from 'aws-amplify';
 import './Uploader.css';
 
 class Uploader extends Component {
-  state = { fileUrl: '', file: '', fileName: ''};
+  state = { fileUrl: '', file: '', fileName: '', saving: false};
 
   handleChange = e => {
     const file = e.target.files[0];
@@ -15,10 +15,11 @@ class Uploader extends Component {
   };
 
   saveFile = () => {
+    this.setState({saving: true})
     Storage.put(this.state.fileName, this.state.file)
       .then(() => {
         console.log('File saved.');
-        this.setState({fileUrl: '', file: '', fileName: ''});
+        this.setState({fileUrl: '', file: '', fileName: '', saving: false});
       })
       .catch(err => {
         console.log('Error uploading file!', err);
@@ -26,11 +27,15 @@ class Uploader extends Component {
   };
 
   render() {
+    const {saving} = this.state
+    if(saving) {
+      return null;
+    }
     return (
-      <div className="Uploader">
-        <div className="Uploader-Content">
+      <div className="uploader">
+        <div className="content">
           <input type="file" onChange={this.handleChange}/>
-          <button onClick={this.saveFile}>Upload XLSX File</button>
+          <button className="primary" onClick={this.saveFile}>Upload XLSX File</button>
         </div>
       </div>
     )
