@@ -52,11 +52,11 @@ class Sidebar extends Component {
   					<li>
   						<NavLink to="/submissions" activeClassName="active">
   							<span className="nav-icon"><i className="fa fa-table"></i></span>
-  							<span className="nav-text">Latest Submissions</span>
+  							<span className="nav-text">Submissions</span>
   						</NavLink>
   					</li>
             <li className="nav-divider"></li>
-  					<li className="nav-header text-left">Forms</li>
+  					<li className="nav-header text-left">XForms</li>
 
             {forms.map((form, i) =>
               <li key={`li-${form.id}`}>

@@ -22,7 +22,7 @@ class Forms extends Component {
     return (
       <div className="card m-b-15">
         <div className="card-header card-header-inverse">
-          <h4 className="card-header-title text-left">Forms</h4>
+          <h4 className="card-header-title text-left">XForms</h4>
           <div className="card-header-btn">
             <a href="#" data-toggle="card-expand" className="btn btn-success"><i className="fa fa-expand"></i></a>
             <a href="#" data-toggle="card-refresh" className="btn btn-warning"><i className="fa fa-redo"></i></a>
