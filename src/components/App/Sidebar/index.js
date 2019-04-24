@@ -36,7 +36,7 @@ class Sidebar extends Component {
   		<div id="sidebar" className="app-sidebar">
   			<div data-scrollbar="true" data-height="100%">
   				<ul className="nav">
-  					<li className="nav-header">XSurveys</li>
+  					<li className="nav-header text-left">Navigation</li>
   					<li>
   						<NavLink exact to="/" activeClassName="active">
   							<span className="nav-icon"><i className="fa fa-home"></i></span>
@@ -56,7 +56,7 @@ class Sidebar extends Component {
   						</NavLink>
   					</li>
             <li className="nav-divider"></li>
-  					<li className="nav-header">Forms</li>
+  					<li className="nav-header text-left">Forms</li>
 
             {forms.map((form, i) =>
               <li key={`li-${form.id}`}>
