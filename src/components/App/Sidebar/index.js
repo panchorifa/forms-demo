@@ -14,25 +14,20 @@ const colors = ['orange', 'green', 'purple', 'blue', 'yellow',
   'red', 'indigo', 'gray'];
 
 class Sidebar extends Component {
-  state = {forms: [], colors};
-
-  // shouldComponentUpdate() {
-  //   return true;
-  // }
+  state = {forms: [], colors, error: null};
 
   async componentDidMount() {
     // app.get('/forms', function(req, res) {
-      axios({
-        method: 'GET',
-        url:'https://rzo0730hr3.execute-api.us-east-1.amazonaws.com/dev/xforms',
-      })
-      .then(response => {
-        this.setState({forms: response.data});
-      })
-      .catch(err => {
-        console.log(err);
-        // res.json({error: err, forms: []});
-      });
+    axios({
+      method: 'GET',
+      url:'https://yqtqjifgk0.execute-api.us-east-1.amazonaws.com/dev/xforms'
+    })
+    .then(response => {
+      this.setState({forms: response.data});
+    })
+    .catch(err => {
+      this.setState({error: err, forms: []});
+    });
   }
 
   render() {
@@ -41,7 +36,7 @@ class Sidebar extends Component {
   		<div id="sidebar" className="app-sidebar">
   			<div data-scrollbar="true" data-height="100%">
   				<ul className="nav">
-  					<li className="nav-header">Navigation</li>
+  					<li className="nav-header">XSurveys</li>
   					<li>
   						<NavLink exact to="/" activeClassName="active">
   							<span className="nav-icon"><i className="fa fa-home"></i></span>
@@ -71,7 +66,6 @@ class Sidebar extends Component {
                 </NavLink>
               </li>
             )}
-
   					<li className="nav-divider"></li>
   					<li className="nav-copyright">&copy; 2019 All Rights Reserved</li>
   				</ul>

@@ -34,8 +34,12 @@ class Uploader extends Component {
     return (
       <div className="uploader">
         <div className="content">
+          <h1 className="page-header">
+            Form Definition Upload
+          </h1>
+          <hr/>
           <input type="file" onChange={this.handleChange}/>
-          <button className="primary" onClick={this.saveFile}>Upload XLSX File</button>
+          <button className="primary" onClick={this.saveFile}>Upload XLSX</button>
         </div>
       </div>
     )

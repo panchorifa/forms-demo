@@ -6,15 +6,9 @@ class Home extends Component {
   render() {
     return(
       <div>
-        <h1 className="page-header">
-          Forms <small>upload, collect & report</small>
-        </h1>
         <div className="row">
           <div className="col-xl-12 col-sm-12">
             <Forms></Forms>
-          </div>
-          <div className="col-xl-12 col-sm-12">
-            <Submissions></Submissions>
           </div>
         </div>
       </div>

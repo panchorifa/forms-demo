@@ -1,17 +1,27 @@
 .uploader {
-  background-color: #ddd;
-  padding: 1em 0;
+  /*background-color: #ddd;*/
+  /*padding: 1em 0;*/
 }
 
 .uploader .content {
-  width: 14em;
   margin: 0 auto;
+  background-color: #fff !important;
+  padding: 3em;
+  text-align: center !important;
+  border-radius: 1em;
+  border: 3px solid #ccc;
 }
 
-.uploader > input {
-  display: inline-block;
-  margin: .5em;
-  cursor: pointer !important;
+.uploader .content > input {
+  /*display: inline-block;*/
+  /*margin: .5em;*/
+  /*cursor: pointer !important;*/
+  text-align: center !important;
+  /*border: 2px solid red;*/
+  width: 14em;
+  margin: 1em auto;
+  margin-top: 2em;
+  margin-bottom: 1em;
 }
 
 .uploader .content > button {

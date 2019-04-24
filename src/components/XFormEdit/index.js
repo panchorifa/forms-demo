@@ -5,7 +5,7 @@ import {Form} from 'enketo-core/src/js/form';
 import axios from 'axios';
 
 import React, {Component} from "react"
-import './XForm.css';
+import './XFormEdit.css';
 
 let eform;
 // import data from 'https://s3.amazonaws.com/forms-app-xslx-dev/public/access.json';
@@ -66,7 +66,7 @@ function withElements(nodes) {
     });
 }
 
-class XForm extends Component {
+class XFormEdit extends Component {
   state = { loading: true, form: '', model: '', formName: null};
 
   constructor(props) {
@@ -76,7 +76,6 @@ class XForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state);
     const data = {
       form: this.state.formName,
       fields: getData(eform)
@@ -133,37 +132,44 @@ class XForm extends Component {
     return new XMLSerializer().serializeToString(bindRoot[0]);
   };
 
-  getFormName() {
-    let {pathname} = this.props.location;
-    return pathname.substr(pathname.lastIndexOf('/')+1);
-  }
+  // getFormName() {
+  //   let {pathname} = this.props.location;
+  //   return pathname.substr(pathname.lastIndexOf('/')+1);
+  // }
 
   async componentDidMount() {
-    const formName = this.getFormName();
-    Storage.get(`${formName}.json`)
-      .then(url => {
-        axios.get(url).then(data => {
-          const {form, model} = data.data;
-          this.setState({form, model, loading: false, formName});
-          const content = {}
-          const $html = $(form);
-          const enketoOptions = {
-            modelStr: model,
-            instanceStr: this.bindDataToModel(model, content),
-            external: undefined
-          };
-          $('.container').replaceWith($html);
-          const element = $('#form').find('form').first();
-          eform = new Form(element, enketoOptions);
-          const loadErrors = eform.init();
-          if (loadErrors && loadErrors.length) {
-            console.log('Load Errors', JSON.stringify(loadErrors));
-          }
-        })
+    const {submissionId} = this.props.match.params;
+    console.log(submissionId);
+    axios.get(`https://yqtqjifgk0.execute-api.us-east-1.amazonaws.com/dev/xsubmissions/${submissionId}`)
+      .then(response => {
+        const formName = response.data.form;
+        const fields = JSON.parse(response.data.fields);
+
+        Storage.get(`${formName}.json`)
+          .then(url => {
+            axios.get(url).then(data => {
+              const {form, model} = data.data;
+              this.setState({form, model, loading: false, formName});
+              const content = fields;
+              const $html = $(form);
+              const enketoOptions = {
+                modelStr: model,
+                instanceStr: this.bindDataToModel(model, content),
+                external: undefined
+              };
+              $('.container').replaceWith($html);
+              const element = $('#form').find('form').first();
+              eform = new Form(element, enketoOptions);
+              const loadErrors = eform.init();
+              if (loadErrors && loadErrors.length) {
+                console.log('Load Errors', JSON.stringify(loadErrors));
+              }
+            })
+          })
+          .catch(err => {
+            console.log('Error downloading file!', err);
+          });
       })
-      .catch(err => {
-        console.log('Error downloading file!', err);
-      });
   }
 
   render() {
@@ -172,7 +178,8 @@ class XForm extends Component {
       return null;
     }
     return (
-      <div className="enketo" id="form">
+      <div className="enketo editable" id="form">
+        <div className="edit">EDIT</div>
         <div className="main">
           <div className="container pages"></div>
           <section className="form-footer end">
@@ -192,4 +199,4 @@ class XForm extends Component {
   }
 }
 
-export default XForm;
+export default XFormEdit;
