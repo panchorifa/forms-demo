@@ -85,7 +85,9 @@ class Forms extends Component {
                       <Moment format="YYYY-MM-DD HH:mm">{form.createdAt}</Moment>
                     </td>
                     <td className="text-left">{form.id}</td>
-                    <td className="text-center">0</td>
+                    <td className="text-center">
+                      <NavLink to={`/forms/${form.id}/submissions`}>{form.submissions}</NavLink>
+                    </td>
                     <td className="btn-col text-right">
                       <NavLink to={`/forms/${form.id}`} className="btn btn-default btn-xs m-r-2"><i className="fa fa-reply"></i></NavLink>
                       <a onClick={() => this.handleDelete(form.id)} className="btn btn-default btn-xs"><i className="fa fa-times"></i></a>

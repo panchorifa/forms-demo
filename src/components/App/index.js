@@ -1,5 +1,7 @@
 import React from 'react';
 import Routes from './Routes';
+import { withAuthenticator } from 'aws-amplify-react';
+// import {connect} from 'react-redux';
 import './App.css';
 
 const App = () => (
@@ -10,4 +12,7 @@ const App = () => (
   </div>
 );
 
-export default App;
+// const mapStateToProps = (state) => state;
+// export default connect(mapStateToProps)(App);
+// export default App;
+export default withAuthenticator(App, {includeGreetings: true});

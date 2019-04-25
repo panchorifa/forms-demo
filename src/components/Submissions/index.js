@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
-import {NavLink} from 'react-router-dom';
+import {withRouter, NavLink} from 'react-router-dom';
 import Moment from 'react-moment';
 import axios from 'axios';
 
 const API = 'https://yqtqjifgk0.execute-api.us-east-1.amazonaws.com/dev';
 
-const getSubmissions = async () => {
+const getSubmissions = async (form) => {
   try {
     const res = await axios({method: 'GET', url: `${API}/xsubmissions`});
-    return res.data.sort((a, b) => b.updatedAt - a.updatedAt);
+    const data = res.data.sort((a, b) => b.updatedAt - a.updatedAt);
+    return form ? data.filter(i => i.form === form) : data;
   } catch(err) {
     console.log(err);
     return [];
@@ -32,7 +33,11 @@ class Submissions extends Component {
   }
 
   async componentDidMount() {
-    this.setState({submissions: await getSubmissions(), loading: false});
+    const {form} = this.props.match.params;
+    this.setState({
+      submissions: await getSubmissions(form),
+      loading: false,
+      form});
   }
 
   async handleDelete(submissionId) {
@@ -96,4 +101,4 @@ class Submissions extends Component {
   }
 }
 
-export default Submissions;
+export default withRouter(Submissions);

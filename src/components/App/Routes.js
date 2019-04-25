@@ -15,6 +15,9 @@ const Routes = () => (
     <div id="content" className="app-content">
       <Route exact path="/" component={Home}/>
       <Route path="/upload" component={Upload}/>
+      <Route path="/forms/:form/submissions" render={(props) => (
+        <Submissions key={props.match.params.form} {...props} />)
+      }/>
       <Route path="/forms/:form" render={(props) => (
         <XForm key={props.match.params.form} {...props} />)
       }/>

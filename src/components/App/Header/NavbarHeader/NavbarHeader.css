@@ -1,10 +1,27 @@
 .navbar-header a {
   background-color: #fff;
-  text-align:right;
+  /*text-align:left;*/
+  position: absolute;
+  left: 2.5em;
+  top: 0;
 }
 
 .navbar-brand {
   background-color: #fff !important;
   width: auto !important;
   margin-right: 1em !important;
+}
+
+
+.Nav__navRight___2cUrh {
+  position: absolute;
+  right: 1em;
+  top: .15em;
+  z-index: 2000;
+}
+
+.Button__button___1FrBC {
+  padding: .5em !important;
+  border-radius: 1em;
+  min-width: 10em !important;
 }

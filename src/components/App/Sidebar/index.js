@@ -13,21 +13,32 @@ const colors = ['orange', 'green', 'purple', 'blue', 'yellow',
   'red', 'indigo', 'gray', 'orange', 'green', 'purple', 'blue', 'yellow',
   'red', 'indigo', 'gray'];
 
+const XAPI = 'https://yqtqjifgk0.execute-api.us-east-1.amazonaws.com/dev';
+const NAME_LIMIT = 21;
+
+const getForms = async () => {
+  try {
+    const res = await axios({method: 'GET', url:`${XAPI}/xforms`});
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+};
+
 class Sidebar extends Component {
   state = {forms: [], colors, error: null};
 
+  formatName(name) {
+    if(name.length > NAME_LIMIT) {
+      name = name.substring(0, NAME_LIMIT);
+      return `${name}...`;
+    }
+    return name;
+  }
+
   async componentDidMount() {
-    // app.get('/forms', function(req, res) {
-    axios({
-      method: 'GET',
-      url:'https://yqtqjifgk0.execute-api.us-east-1.amazonaws.com/dev/xforms'
-    })
-    .then(response => {
-      this.setState({forms: response.data});
-    })
-    .catch(err => {
-      this.setState({error: err, forms: []});
-    });
+    this.setState({forms: await getForms()});
   }
 
   render() {
@@ -62,7 +73,7 @@ class Sidebar extends Component {
               <li key={`li-${form.id}`}>
                 <NavLink to={`/forms/${form.id.toLowerCase()}`}>
                   <span className="nav-icon"><i className={"fa fa-file-alt text-white bg-gradient-"+colors[i]}></i></span>
-                  <span className="nav-text">{form.id}</span>
+                  <span className="nav-text">{this.formatName(form.id)}</span>
                 </NavLink>
               </li>
             )}
