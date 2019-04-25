@@ -1,60 +1,100 @@
 import React, {Component} from 'react';
+import {NavLink} from 'react-router-dom';
+import Moment from 'react-moment';
 import axios from 'axios';
 
+const API = 'https://yqtqjifgk0.execute-api.us-east-1.amazonaws.com/dev';
+
+const getForms = async () => {
+  try {
+    const res = await axios({method: 'GET', url: `${API}/xforms`});
+    return res.data.sort((a, b) => b.updatedAt - a.updatedAt);
+  } catch(err) {
+    console.log(err);
+    return [];
+  }
+};
+
+const deleteForm = async (formId) => {
+  try {
+    await axios({method: 'DELETE', url:`${API}/xforms/${formId}`});
+  } catch(err) {
+    console.log(err);
+  }
+};
+
 class Forms extends Component {
-  state = {forms: []};
+  state = {forms: [], loading: true};
+
+  constructor(props) {
+    super(props)
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleRefresh = this.handleRefresh.bind(this);
+  }
 
   async componentDidMount() {
-    axios({
-      method: 'GET',
-      url: 'https://yqtqjifgk0.execute-api.us-east-1.amazonaws.com/dev/xforms',
-    })
-    .then(response => {
-      this.setState({forms: response.data});
-    })
-    .catch(err => {
-      this.setState({error: err, forms: []});
-    });
+    this.setState({forms: await getForms(), loading: false});
+  }
+
+  async handleDelete(formId) {
+    await deleteForm(formId);
+    this.setState({forms: await getForms()});
+  }
+
+  async handleRefresh() {
+    this.setState({forms: await getForms()});
   }
 
   render() {
-    const {forms} = this.state;
+    const {forms, loading} = this.state;
+    if(loading) return null;
     return (
       <div className="card m-b-15">
         <div className="card-header card-header-inverse">
           <h4 className="card-header-title text-left">XForms</h4>
           <div className="card-header-btn">
             <a href="#" data-toggle="card-expand" className="btn btn-success"><i className="fa fa-expand"></i></a>
-            <a href="#" data-toggle="card-refresh" className="btn btn-warning"><i className="fa fa-redo"></i></a>
+            <a onClick={() => this.handleRefresh()} data-toggle="card-refresh" className="btn btn-warning"><i className="fa fa-redo"></i></a>
           </div>
         </div>
         <div className="card-body">
-          <p className="f-s-12 text-muted">The form status goes from xslx(<code>excel</code>), xml(<code>xform</code>) to json<code>enketo</code>.</p>
-          <table className="table table-striped m-b-0">
-            <thead>
-              <tr>
-                <th className="text-left">FORM NAME</th>
-                <th className="text-center">SUBMISSIONS</th>
-                <th className="text-left">DATE CREATED</th>
-                <th className="text-left">LAST UPDATED</th>
-                <th className="text-right">ACTIONS</th>
-              </tr>
-            </thead>
-            <tbody>
-              {forms.map((form, i) =>
-                <tr key={`tr-form-${i}`}>
-                  <td className="text-left">{form.id}</td>
-                  <td className="text-center">0</td>
-                  <td className="text-left">12/12/19</td>
-                  <td className="text-left">12/12/19</td>
-                  <td className="btn-col text-right">
-                    <a href="#" className="btn btn-default btn-xs m-r-2"><i className="fa fa-reply"></i></a>
-                    <a href="#" className="btn btn-default btn-xs"><i className="fa fa-times"></i></a>
-                  </td>
+          {forms.length === 0 &&
+            <div>
+              <br/>
+              <p className="f-s-12 text-muted">You do not have any xforms.</p>
+            </div>
+          }
+          {forms.length > 0 &&
+            <table className="table table-striped m-b-0">
+              <thead>
+                <tr>
+                  <th className="text-left">LAST UPDATED</th>
+                  <th className="text-left">DATE CREATED</th>
+                  <th className="text-left">NAME</th>
+                  <th className="text-center">SUBMISSIONS</th>
+                  <th className="text-right">ACTIONS</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {forms.map((form, i) =>
+                  <tr key={`tr-form-${i}`}>
+                    <td className="text-left">
+                      <Moment format="YYYY-MM-DD HH:mm">{form.updatedAt}</Moment>
+                    </td>
+                    <td className="text-left">
+                      <Moment format="YYYY-MM-DD HH:mm">{form.createdAt}</Moment>
+                    </td>
+                    <td className="text-left">{form.id}</td>
+                    <td className="text-center">0</td>
+                    <td className="btn-col text-right">
+                      <NavLink to={`/forms/${form.id}`} className="btn btn-default btn-xs m-r-2"><i className="fa fa-reply"></i></NavLink>
+                      <a onClick={() => this.handleDelete(form.id)} className="btn btn-default btn-xs"><i className="fa fa-times"></i></a>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          }
         </div>
       </div>
     )

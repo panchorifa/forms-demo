@@ -75,3 +75,7 @@
 .editable .or-repeat > h4 {
   border-bottom: 3px solid #9805ff;
 }
+
+.btn-update {
+  background-color: #9805ff !important;
+}

@@ -2,6 +2,7 @@ import $ from 'jquery';
 import { API, Storage } from 'aws-amplify';
 import _ from 'underscore';
 import {Form} from 'enketo-core/src/js/form';
+import {withRouter} from 'react-router-dom';
 import axios from 'axios';
 
 import React, {Component} from "react"
@@ -76,23 +77,24 @@ class XFormEdit extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    const submissionId=this.props.match.params.submissionId;
     const data = {
-      form: this.state.formName,
-      fields: getData(eform)
+      content: getData(eform)
     };
-
+    console.log(data);
     axios({
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      url:'https://yqtqjifgk0.execute-api.us-east-1.amazonaws.com/dev/xsubmissions',
+      url:`https://yqtqjifgk0.execute-api.us-east-1.amazonaws.com/dev/xsubmissions/${submissionId}`,
       data: JSON.stringify(data),
       json: true
     })
     .then(response => {
       console.log(response);
+      this.props.history.push('/submissions');
       // this.setState({submissions: response.data});
     })
     .catch(err => {
@@ -143,14 +145,16 @@ class XFormEdit extends Component {
     axios.get(`https://yqtqjifgk0.execute-api.us-east-1.amazonaws.com/dev/xsubmissions/${submissionId}`)
       .then(response => {
         const formName = response.data.form;
-        const fields = JSON.parse(response.data.fields);
+        let content = {};
+        if(response.data.content) {
+          content = JSON.parse(response.data.content);
+        }
 
         Storage.get(`${formName}.json`)
           .then(url => {
             axios.get(url).then(data => {
               const {form, model} = data.data;
               this.setState({form, model, loading: false, formName});
-              const content = fields;
               const $html = $(form);
               const enketoOptions = {
                 modelStr: model,
@@ -185,8 +189,8 @@ class XFormEdit extends Component {
           <section className="form-footer end">
             <div className="form-footer__content">
               <div className="form-footer__content__main-controls">
-                <button onClick={this.handleSubmit} className="btn btn-primary" id="submit-form">
-                  <i className="icon icon-check"> </i>Submit
+                <button onClick={this.handleSubmit} className="btn btn-primary btn-update" id="submit-form">
+                  <i className="icon icon-check"> </i>Update
                 </button>
                 <a className="btn btn-default previous-page disabled" href="#">Prev</a>
                 <a className="btn btn-primary next-page disabled" href="#">Next</a>
@@ -199,4 +203,4 @@ class XFormEdit extends Component {
   }
 }
 
-export default XFormEdit;
+export default withRouter(XFormEdit);

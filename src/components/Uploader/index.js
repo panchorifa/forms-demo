@@ -1,5 +1,6 @@
-import React, {Component} from "react"
+import React, {Component} from 'react';
 import { Storage } from 'aws-amplify';
+import {withRouter} from 'react-router-dom'
 import './Uploader.css';
 
 class Uploader extends Component {
@@ -19,7 +20,8 @@ class Uploader extends Component {
     Storage.put(this.state.fileName, this.state.file)
       .then(() => {
         console.log('File saved.');
-        this.setState({fileUrl: '', file: '', fileName: '', saving: false});
+        // this.setState({fileUrl: '', file: '', fileName: '', saving: false});
+        this.props.history.push('/');
       })
       .catch(err => {
         console.log('Error uploading file!', err);
@@ -46,4 +48,4 @@ class Uploader extends Component {
   }
 }
 
-export default Uploader;
+export default withRouter(Uploader);

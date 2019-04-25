@@ -2,6 +2,7 @@ import $ from 'jquery';
 import { API, Storage } from 'aws-amplify';
 import _ from 'underscore';
 import {Form} from 'enketo-core/src/js/form';
+import {withRouter} from 'react-router-dom';
 import axios from 'axios';
 
 import React, {Component} from "react"
@@ -79,7 +80,7 @@ class XForm extends Component {
     console.log(this.state);
     const data = {
       form: this.state.formName,
-      fields: getData(eform)
+      content: getData(eform)
     };
 
     axios({
@@ -94,6 +95,7 @@ class XForm extends Component {
     })
     .then(response => {
       console.log(response);
+      this.props.history.push('/submissions');
       // this.setState({submissions: response.data});
     })
     .catch(err => {
@@ -192,4 +194,4 @@ class XForm extends Component {
   }
 }
 
-export default XForm;
+export default withRouter(XForm);
