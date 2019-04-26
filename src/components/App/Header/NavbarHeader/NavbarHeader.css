@@ -1,6 +1,9 @@
+.navbar-toggle .navbar-toggle-minify {
+  z-index:2000;
+}
+
 .navbar-header a {
   background-color: #fff;
-  /*text-align:left;*/
   position: absolute;
   left: 2.5em;
   top: 0;
@@ -12,9 +15,8 @@
   margin-right: 1em !important;
 }
 
-
 .Nav__navRight___2cUrh {
-  position: absolute;
+  position: fixed;
   right: 1em;
   top: .15em;
   z-index: 2000;

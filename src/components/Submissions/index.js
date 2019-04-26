@@ -5,6 +5,11 @@ import axios from 'axios';
 
 const API = 'https://yqtqjifgk0.execute-api.us-east-1.amazonaws.com/dev';
 
+const capitalize = (s) => {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+};
+
 const getSubmissions = async (form) => {
   try {
     const res = await axios({method: 'GET', url: `${API}/xsubmissions`});
@@ -46,12 +51,13 @@ class Submissions extends Component {
   }
 
   render() {
-    const {submissions, loading} = this.state;
+    const {form, submissions, loading} = this.state;
+    const titlePrefix = form ? `${capitalize(form)} Form ` : '';
     if(loading) return null;
     return (
       <div className="card m-b-15">
         <div className="card-header card-header-inverse">
-          <h4 className="card-header-title text-left">Submissions</h4>
+          <h4 className="card-header-title text-left">{titlePrefix}Submissions</h4>
           <div className="card-header-btn">
             <a href="#" data-toggle="card-expand" className="btn btn-success"><i className="fa fa-expand"></i></a>
             <a href="#" data-toggle="card-refresh" className="btn btn-warning"><i className="fa fa-redo"></i></a>
@@ -87,8 +93,9 @@ class Submissions extends Component {
                     <td className="text-left">{submission.form}</td>
                     <td className="text-center">admin</td>
                     <td className="btn-col text-right">
-                      <NavLink to={`/submissions/${submission.id}`} href="#" className="btn btn-default btn-xs m-r-2"><i className="fa fa-edit"></i></NavLink>
-                      <a onClick={() => this.handleDelete(submission.id)} className="btn btn-default btn-xs"><i className="fa fa-times"></i></a>
+                      <NavLink to={`/edit/${submission.id}`} className="btn btn-default btn-xs m-r-2"><i className="fa fa-edit" title="edit"></i></NavLink>
+                      <NavLink to={`/submissions/${submission.id}`} className="btn btn-default btn-xs m-r-2"><i className="fa fa-list" title="view"></i></NavLink>
+                      <a onClick={() => this.handleDelete(submission.id)} className="btn btn-default btn-xs"><i className="fa fa-times" title="delete"></i></a>
                     </td>
                   </tr>
                 )}

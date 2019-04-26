@@ -154,6 +154,11 @@ class XForm extends Component {
             instanceStr: this.bindDataToModel(model, content),
             external: undefined
           };
+          console.log($html);
+          console.log('================================');
+          console.log(model);
+          console.log('================================');
+          console.log(content);
           $('.container').replaceWith($html);
           const element = $('#form').find('form').first();
           eform = new Form(element, enketoOptions);

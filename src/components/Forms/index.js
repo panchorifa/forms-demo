@@ -89,8 +89,8 @@ class Forms extends Component {
                       <NavLink to={`/forms/${form.id}/submissions`}>{form.submissions}</NavLink>
                     </td>
                     <td className="btn-col text-right">
-                      <NavLink to={`/forms/${form.id}`} className="btn btn-default btn-xs m-r-2"><i className="fa fa-reply"></i></NavLink>
-                      <a onClick={() => this.handleDelete(form.id)} className="btn btn-default btn-xs"><i className="fa fa-times"></i></a>
+                      <NavLink to={`/forms/${form.id}`} className="btn btn-default btn-xs m-r-2"><i className="fa fa-reply" title="submit"></i></NavLink>
+                      <a onClick={() => this.handleDelete(form.id)} className="btn btn-default btn-xs"><i className="fa fa-times" title="delete"></i></a>
                     </td>
                   </tr>
                 )}

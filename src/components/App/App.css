@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  /*border: 1px solid red;*/
+  margin-top: -1.7em;
 }
 
 .App-logo {
@@ -21,4 +23,32 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.Form__formSection___3tqxz:before {
+  content: 'WEBXFORMS';
+  font-weight: bold;
+  font-size: 2em;
+  border-bottom: 4px solid #FF9900;
+  padding: 0 8em 0 0;
+}
+
+.Section__sectionHeader___13iO4:before {
+}
+
+.Section__container___1Gue {
+  border: 20px solid red !important;
+}
+
+input {
+  border: 1px solid #ddd !important;
+}
+
+.Input__input___2Sh1s {
+  padding-left: .75em !important;
+}
+
+.Anchor__a___3JUCG {
+  color: #007aff !important;
+  text-decoration: underline !important;
 }
