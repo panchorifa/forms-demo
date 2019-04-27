@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
 import {API} from 'aws-amplify';
+import {getForms} from '../../../services/api';
 import './Sidebar.css';
-import axios from 'axios';
 
 const colors = ['orange', 'green', 'purple', 'blue', 'yellow',
   'red', 'indigo', 'gray', 'orange', 'green', 'purple', 'blue', 'yellow',
@@ -15,16 +15,6 @@ const colors = ['orange', 'green', 'purple', 'blue', 'yellow',
 
 const XAPI = 'https://yqtqjifgk0.execute-api.us-east-1.amazonaws.com/dev';
 const NAME_LIMIT = 21;
-
-const getForms = async () => {
-  try {
-    const res = await axios({method: 'GET', url:`${XAPI}/xforms`});
-    return res.data;
-  } catch (err) {
-    console.log(err);
-    return [];
-  }
-};
 
 class Sidebar extends Component {
   state = {forms: [], colors, error: null};

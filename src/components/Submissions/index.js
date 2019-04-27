@@ -1,32 +1,11 @@
 import React, {Component} from 'react';
 import {withRouter, NavLink} from 'react-router-dom';
 import Moment from 'react-moment';
-import axios from 'axios';
-
-const API = 'https://yqtqjifgk0.execute-api.us-east-1.amazonaws.com/dev';
+import {getSubmissions, deleteSubmission} from '../../services/api';
 
 const capitalize = (s) => {
   if (typeof s !== 'string') return ''
   return s.charAt(0).toUpperCase() + s.slice(1)
-};
-
-const getSubmissions = async (form) => {
-  try {
-    const res = await axios({method: 'GET', url: `${API}/xsubmissions`});
-    const data = res.data.sort((a, b) => b.updatedAt - a.updatedAt);
-    return form ? data.filter(i => i.form === form) : data;
-  } catch(err) {
-    console.log(err);
-    return [];
-  }
-};
-
-const deleteSubmission = async (id) => {
-  try {
-    await axios({method: 'DELETE', url: `${API}/xsubmissions/${id}`});
-  } catch(err) {
-    console.log(err);
-  }
 };
 
 class Submissions extends Component {

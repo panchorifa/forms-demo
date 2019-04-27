@@ -10,7 +10,8 @@
   width: auto !important;
   margin-right: 1em !important;
   left: 2.5em;
-  position: absolute;
+  top: .025em;
+  position: fixed !important;
 }
 
 @media (max-width: 991.98px) {

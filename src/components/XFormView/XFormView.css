@@ -1,0 +1,23 @@
+.active {
+  text-align: left !important;
+  position: relative;
+}
+
+.form-view .value {
+  float: right;
+  font-weight: bold;
+  width: 50%;
+  /*padding-top: .5em;*/
+  /*border: 1px solid red;*/
+}
+
+.list-group-item a {
+  color: white;
+  font-size: 14px;
+  margin-left: .5em;
+  text-decoration: underline;
+}
+
+.list-group-title {
+  margin-top: .5em;
+}

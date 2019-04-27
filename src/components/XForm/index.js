@@ -1,71 +1,13 @@
 import $ from 'jquery';
 import { API, Storage } from 'aws-amplify';
-import _ from 'underscore';
 import {Form} from 'enketo-core/src/js/form';
 import {withRouter} from 'react-router-dom';
-import axios from 'axios';
-
 import React, {Component} from "react"
+import {getData} from '../../services/enketo';
+import {getForm, addSubmission} from '../../services/api';
 import './XForm.css';
 
 let eform;
-// import data from 'https://s3.amazonaws.com/forms-app-xslx-dev/public/access.json';
-
-const getData = (form) => {
-  const record = form.getDataStr({ irrelevant: false });
-  var root = $.parseXML(record).firstChild;
-  var repeatPaths = $(form)
-    .find('repeat[nodeset]')
-    .map(() => {
-      return $(this).attr('nodeset');
-    })
-    .get();
-  return nodesToJs(root.childNodes, repeatPaths, '/' + root.nodeName);
-};
-
-const nodesToJs = (data, repeatPaths, path) => {
-  repeatPaths = repeatPaths || [];
-  path = path || '';
-  const result = {};
-  withElements(data)
-    .each(function(n) {
-      var dbDocAttribute = n.attributes.getNamedItem('db-doc');
-      if (dbDocAttribute && dbDocAttribute.value === 'true') {
-        return;
-      }
-
-      var typeAttribute = n.attributes.getNamedItem('type');
-      var updatedPath = path + '/' + n.nodeName;
-      var value;
-
-      var hasChildren = withElements(n.childNodes).size().value();
-      if(hasChildren) {
-        value = nodesToJs(n.childNodes, repeatPaths, updatedPath);
-      } else if (typeAttribute && typeAttribute.value === 'binary') {
-        // this is attached to the doc instead of inlined
-        value = '';
-      } else {
-        value = n.textContent;
-      }
-
-      if (repeatPaths.indexOf(updatedPath) !== -1) {
-        if (!result[n.nodeName]) {
-          result[n.nodeName] = [];
-        }
-        result[n.nodeName].push(value);
-      } else {
-        result[n.nodeName] = value;
-      }
-    });
-  return result;
-};
-
-function withElements(nodes) {
-  return _.chain(nodes)
-    .filter(function(n) {
-      return n.nodeType === Node.ELEMENT_NODE;
-    });
-}
 
 class XForm extends Component {
   state = { loading: true, form: '', model: '', formName: null};
@@ -75,33 +17,15 @@ class XForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state);
     const data = {
       form: this.state.formName,
       content: getData(eform)
     };
-
-    axios({
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      url:'https://yqtqjifgk0.execute-api.us-east-1.amazonaws.com/dev/xsubmissions',
-      data: JSON.stringify(data),
-      json: true
-    })
-    .then(response => {
-      console.log(response);
+    if(await addSubmission(data)) {
       this.props.history.push('/submissions');
-      // this.setState({submissions: response.data});
-    })
-    .catch(err => {
-      console.log(err);
-      // this.setState({error: err, submissions: []});
-    });
+    }
   }
 
   bindDataToModel(model, data) {
@@ -141,36 +65,28 @@ class XForm extends Component {
   }
 
   async componentDidMount() {
-    const formName = this.getFormName();
-    Storage.get(`${formName}.json`)
-      .then(url => {
-        axios.get(url).then(data => {
-          const {form, model} = data.data;
-          this.setState({form, model, loading: false, formName});
-          const content = {}
-          const $html = $(form);
-          const enketoOptions = {
-            modelStr: model,
-            instanceStr: this.bindDataToModel(model, content),
-            external: undefined
-          };
-          console.log($html);
-          console.log('================================');
-          console.log(model);
-          console.log('================================');
-          console.log(content);
-          $('.container').replaceWith($html);
-          const element = $('#form').find('form').first();
-          eform = new Form(element, enketoOptions);
-          const loadErrors = eform.init();
-          if (loadErrors && loadErrors.length) {
-            console.log('Load Errors', JSON.stringify(loadErrors));
-          }
-        })
-      })
-      .catch(err => {
-        console.log('Error downloading file!', err);
-      });
+    const formName = this.props.match.params.form;
+    const {form, model} = await getForm(formName);
+    this.setState({form, model, loading: false, formName});
+    const content = {}
+    const $html = $(form);
+    const enketoOptions = {
+      modelStr: model,
+      instanceStr: this.bindDataToModel(model, content),
+      external: undefined
+    };
+    console.log($html);
+    console.log('================================');
+    console.log(model);
+    console.log('================================');
+    console.log(content);
+    $('.container').replaceWith($html);
+    const element = $('#form').find('form').first();
+    eform = new Form(element, enketoOptions);
+    const loadErrors = eform.init();
+    if (loadErrors && loadErrors.length) {
+      console.log('Load Errors', JSON.stringify(loadErrors));
+    }
   }
 
   render() {

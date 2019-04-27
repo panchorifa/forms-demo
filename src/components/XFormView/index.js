@@ -1,37 +1,53 @@
 import React, {Component} from 'react';
-import {Storage} from 'aws-amplify';
-import axios from 'axios';
+import {NavLink} from 'react-router-dom';
+import {getSubmission} from '../../services/api';
+import './XFormView.css';
+
+const IGNORED_KEYS=['deviceid', 'start', 'end', 'today', 'instanceID'];
+
+const getValues = (content, values=[]) => {
+  Object.keys(content)
+  .filter(k => !IGNORED_KEYS.includes(k))
+  .map((key) => {
+    const value = content[key];
+    if(typeof value === 'string' && value.length) {
+      values.push([key, value]);
+    } else if(typeof value === 'object') {
+      getValues(value, values);
+    }
+  });
+  return values;
+}
 
 class XFormView extends Component {
+  state = {loading: true, values: []};
+
+  constructor(props) {
+    super(props)
+  }
+
   async componentDidMount() {
     const {submissionId} = this.props.match.params;
-    axios.get(`https://yqtqjifgk0.execute-api.us-east-1.amazonaws.com/dev/xsubmissions/${submissionId}`)
-      .then(response => {
-        const formName = response.data.form;
-        let content = {};
-        if(response.data.content) {
-          content = JSON.parse(response.data.content);
-        }
-
-        Storage.get(`${formName}.json`)
-          .then(url => {
-            axios.get(url).then(data => {
-              const {form, model} = data.data;
-              this.setState({form, model, content, loading: false, formName});
-            });
-          })
-          .catch(err => {
-            console.log('Error downloading file!', err);
-          });
-      })
+    const {formName, form, model, content} = await getSubmission(submissionId);
+    const values = getValues(content);
+    this.setState({formName, submissionId, form, model, values, loading: false});
   }
 
   render() {
+    const {formName, submissionId, loading, values} = this.state;
+    if(loading) return null;
+    console.log(this.state)
     return (
       <div className="form-view card-body">
 				<div className="list-group m-b-0">
-					<div className="list-group-item active">Active Link Item</div>
-					<div className="list-group-item text-left">Without link</div>
+					<div className="list-group-item active">Form: <NavLink to={`/forms/${formName}`}><b>{formName}</b></NavLink>
+            <div className="list-group-title">Submission: <NavLink to={`/edit/${submissionId}`}><b>{submissionId}</b></NavLink></div>
+            <div className="list-group-title">Enketo Form: <NavLink to={`/eforms/${submissionId}`}><b>enketo form</b></NavLink></div>
+            <div className="list-group-title">Enketo Model: <NavLink to={`/models/${submissionId}`}><b>enketo model</b></NavLink></div>
+          </div>
+          {values.map((r, idx) =>
+					  <div key={`field${idx}`} className="list-group-item text-left">{r[0]} <div className="value">{r[1]}</div></div>
+          )}
 				</div>
 			</div>
     )
@@ -39,3 +55,7 @@ class XFormView extends Component {
 }
 
 export default XFormView;
+
+// {content[field].length > 1 && Object.keys(content[field]).map((subfield, subIdx) =>
+//   <div key={`field${idx}-${subIdx}`} className="list-group-item text-left"> >> {subfield}</div>
+// )}

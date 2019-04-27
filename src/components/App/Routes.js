@@ -8,6 +8,8 @@ import Upload from '../Uploader';
 import XForm from '../XForm';
 import XFormEdit from '../XFormEdit';
 import XFormView from '../XFormView';
+import EForm from '../EForm';
+import EModel from '../EModel';
 
 const Routes = () => (
   <Router>
@@ -21,6 +23,12 @@ const Routes = () => (
       }/>
       <Route path="/forms/:form" render={(props) => (
         <XForm key={props.match.params.form} {...props} />)
+      }/>
+      <Route path="/eforms/:submissionId" render={(props) => (
+        <EForm key={props.match.params.submissionId} {...props} />)
+      }/>
+      <Route path="/models/:submissionId" render={(props) => (
+        <EModel key={props.match.params.submissionId} {...props} />)
       }/>
       <Route exact path="/submissions" component={Submissions}/>
       <Route path="/edit/:submissionId" render={(props) => (

@@ -1,27 +1,7 @@
 import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
 import Moment from 'react-moment';
-import axios from 'axios';
-
-const API = 'https://yqtqjifgk0.execute-api.us-east-1.amazonaws.com/dev';
-
-const getForms = async () => {
-  try {
-    const res = await axios({method: 'GET', url: `${API}/xforms`});
-    return res.data.sort((a, b) => b.updatedAt - a.updatedAt);
-  } catch(err) {
-    console.log(err);
-    return [];
-  }
-};
-
-const deleteForm = async (formId) => {
-  try {
-    await axios({method: 'DELETE', url:`${API}/xforms/${formId}`});
-  } catch(err) {
-    console.log(err);
-  }
-};
+import {getForms, deleteForm} from '../../services/api';
 
 class Forms extends Component {
   state = {forms: [], loading: true};
@@ -90,7 +70,7 @@ class Forms extends Component {
                     </td>
                     <td className="btn-col text-right">
                       <NavLink to={`/forms/${form.id}`} className="btn btn-default btn-xs m-r-2"><i className="fa fa-reply" title="submit"></i></NavLink>
-                      <a href="#inverse-modal" data-toggle="modal" xonClick={() => this.handleDelete(form.id)} className="btn btn-default btn-xs"><i className="fa fa-times" title="delete"></i></a>                      
+                      <a href="#inverse-modal" data-toggle="modal" xonClick={() => this.handleDelete(form.id)} className="btn btn-default btn-xs"><i className="fa fa-times" title="delete"></i></a>
                     </td>
                   </tr>
                 )}
