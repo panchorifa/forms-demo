@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import { API, Storage } from 'aws-amplify';
 import {Form} from 'enketo-core/src/js/form';
 import {withRouter} from 'react-router-dom';
 import React, {Component} from "react"
@@ -31,7 +30,6 @@ class XForm extends Component {
   bindDataToModel(model, data) {
     const xmlModel = $($.parseXML(model));
     const bindRoot = xmlModel.find('model instance').children().first();
-    const userRoot = bindRoot.find('>inputs>user');
     if (data) {
       const bindJsonToXml = (elem, data, childMatcher) => {
         const findCurrentElement = (elem, name, childMatcher) => {

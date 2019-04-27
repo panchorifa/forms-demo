@@ -8,7 +8,7 @@ const IGNORED_KEYS=['deviceid', 'start', 'end', 'today', 'instanceID'];
 const getValues = (content, values=[]) => {
   Object.keys(content)
   .filter(k => !IGNORED_KEYS.includes(k))
-  .map((key) => {
+  .map(key => {
     const value = content[key];
     if(typeof value === 'string' && value.length) {
       values.push([key, value]);
@@ -22,21 +22,16 @@ const getValues = (content, values=[]) => {
 class XFormView extends Component {
   state = {loading: true, values: []};
 
-  constructor(props) {
-    super(props)
-  }
-
   async componentDidMount() {
     const {submissionId} = this.props.match.params;
-    const {formName, form, model, content} = await getSubmission(submissionId);
+    const {formName, content} = await getSubmission(submissionId);
     const values = getValues(content);
-    this.setState({formName, submissionId, form, model, values, loading: false});
+    this.setState({formName, submissionId, values, loading: false});
   }
 
   render() {
     const {formName, submissionId, loading, values} = this.state;
     if(loading) return null;
-    console.log(this.state)
     return (
       <div className="form-view card-body">
 				<div className="list-group m-b-0">

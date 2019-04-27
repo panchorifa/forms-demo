@@ -1,3 +1,9 @@
+/*.webxforms-header {
+  height: 2em;
+  top:0;
+  left: 0;
+}*/
+
 .app-header {
   height: 2em !important;
   min-height: 3.5em !important;
@@ -9,9 +15,44 @@
   background-color: #fff !important;
   width: auto !important;
   margin-right: 1em !important;
-  left: 2.5em;
-  top: .025em;
+  left: 3em !important;
+  top: .25em;
+  z-index: 2000;
+  color: #000;
+  font-weight: bold;
   position: fixed !important;
+}
+
+.navbar-toggle .navbar-toggle-minify {
+  z-index:2000;
+}
+
+.navbar-header a {
+  background-color: #fff;
+  position: absolute;
+  left: 2.5em;
+  top: 0;
+}
+
+.navbar-brand {
+  background-color: #fff !important;
+  width: auto !important;
+  margin-right: 1em !important;
+  position: fixed;
+  left: 2em;
+}
+
+.Nav__navRight___2cUrh {
+  position: fixed;
+  right: 3em;
+  top: .25em;
+  z-index: 2000;
+}
+
+.Button__button___1FrBC {
+  padding: .5em !important;
+  border-radius: 1em;
+  min-width: 10em !important;
 }
 
 @media (max-width: 991.98px) {

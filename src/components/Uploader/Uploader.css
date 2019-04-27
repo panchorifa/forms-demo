@@ -9,15 +9,11 @@
   padding: 3em;
   text-align: center !important;
   border-radius: 1em;
-  border: 3px solid #ccc;
+  border: 2px solid #ccc;
 }
 
 .uploader .content > input {
-  /*display: inline-block;*/
-  /*margin: .5em;*/
-  /*cursor: pointer !important;*/
   text-align: center !important;
-  /*border: 2px solid red;*/
   width: 19em;
   height: 3.75em;
   border-radius: .5em;

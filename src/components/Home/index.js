@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Forms from '../Forms/index';
-import Submissions from '../Submissions/index';
 
 class Home extends Component {
   render() {

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
-import {API} from 'aws-amplify';
 import {getForms} from '../../../services/api';
 import './Sidebar.css';
 
@@ -13,7 +12,6 @@ const colors = ['orange', 'green', 'purple', 'blue', 'yellow',
   'red', 'indigo', 'gray', 'orange', 'green', 'purple', 'blue', 'yellow',
   'red', 'indigo', 'gray'];
 
-const XAPI = 'https://yqtqjifgk0.execute-api.us-east-1.amazonaws.com/dev';
 const NAME_LIMIT = 21;
 
 class Sidebar extends Component {

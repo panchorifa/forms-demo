@@ -1,13 +1,10 @@
-.App {
-  text-align: center;
-  /*border: 1px solid red;*/
-  margin-top: -1.7em;
+.app {
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.App {
+  margin-top: 2em;
 }
 
 .App-header {
@@ -36,12 +33,10 @@
 .Section__sectionHeader___13iO4:before {
 }
 
-.Section__container___1Gue {
-  border: 20px solid red !important;
-}
-
-input {
+.Form__formSection___3tqxz input {
+/*input {*/
   border: 1px solid #ddd !important;
+  background-color: #fff;
 }
 
 .Input__input___2Sh1s {

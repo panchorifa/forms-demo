@@ -1,6 +1,5 @@
 import $ from 'jquery';
 import _ from 'underscore';
-import axios from 'axios';
 
 export const getData = (form) => {
   const record = form.getDataStr({ irrelevant: false });
