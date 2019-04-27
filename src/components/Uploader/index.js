@@ -29,7 +29,7 @@ class Uploader extends Component {
   };
 
   render() {
-    const {saving} = this.state
+    const {saving, file} = this.state
     if(saving) {
       return null;
     }
@@ -41,7 +41,7 @@ class Uploader extends Component {
           </h1>
           <hr/>
           <input type="file" onChange={this.handleChange}/>
-          <button className="primary" onClick={this.saveFile}>Upload XLSX</button>
+          <button className="primary" disabled={!file} onClick={this.saveFile}>Upload XLSX</button>
         </div>
       </div>
     )

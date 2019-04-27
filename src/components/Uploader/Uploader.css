@@ -18,7 +18,10 @@
   /*cursor: pointer !important;*/
   text-align: center !important;
   /*border: 2px solid red;*/
-  width: 14em;
+  width: 19em;
+  height: 3.75em;
+  border-radius: .5em;
+  padding: 1em;
   margin: 1em auto;
   margin-top: 2em;
   margin-bottom: 1em;
@@ -31,4 +34,12 @@
   padding: .5em 1em;
   border-radius: .3em;
   cursor: pointer !important;
+}
+
+.uploader .content > button:disabled {
+  background-color: #888;
+}
+
+.uploader .content > button:hover:disabled {
+  cursor: not-allowed !important;
 }

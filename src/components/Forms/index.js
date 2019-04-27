@@ -90,7 +90,7 @@ class Forms extends Component {
                     </td>
                     <td className="btn-col text-right">
                       <NavLink to={`/forms/${form.id}`} className="btn btn-default btn-xs m-r-2"><i className="fa fa-reply" title="submit"></i></NavLink>
-                      <a onClick={() => this.handleDelete(form.id)} className="btn btn-default btn-xs"><i className="fa fa-times" title="delete"></i></a>
+                      <a href="#inverse-modal" data-toggle="modal" xonClick={() => this.handleDelete(form.id)} className="btn btn-default btn-xs"><i className="fa fa-times" title="delete"></i></a>                      
                     </td>
                   </tr>
                 )}
