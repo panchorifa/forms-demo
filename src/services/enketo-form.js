@@ -2,6 +2,12 @@ import $ from 'jquery';
 import {Form} from 'enketo-core/src/js/form';
 
 export const bindDataToModel = (model, data) => {
+  // console.log('-------------------------------------1');
+  // console.log(model)
+  // console.log('-------------------------------------2');
+  // console.log(data)
+  // console.log('-------------------------------------3');
+
   const xmlModel = $($.parseXML(model));
   const bindRoot = xmlModel.find('model instance').children().first();
   if (data) {
@@ -28,7 +34,10 @@ export const bindDataToModel = (model, data) => {
       return '>%, >inputs>%'.replace(/%/g, name);
     });
   }
-  return new XMLSerializer().serializeToString(bindRoot[0]);
+  const res = new XMLSerializer().serializeToString(bindRoot[0]);
+  // console.log(res);
+  // console.log('-------------------------------------4');
+  return res;
 };
 
 class EnketoForm {
@@ -38,10 +47,10 @@ class EnketoForm {
       instanceStr: bindDataToModel(model, content),
       external: undefined
     };
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-    console.log(element);
-    console.log(options);
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+    // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+    // console.log(element);
+    // console.log(options);
+    // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
     this.form = new Form(element, options);
     const errors = this.form.init();
     if (errors && errors.length) {

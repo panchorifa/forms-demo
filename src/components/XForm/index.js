@@ -1,10 +1,12 @@
 import $ from 'jquery';
 import {Form} from 'enketo-core/src/js/form';
 import {withRouter} from 'react-router-dom';
+import { Storage } from 'aws-amplify';
 import React, {Component} from "react"
 import {getData} from '../../services/enketo';
 import {bindDataToModel} from '../../services/enketo-form';
 import {getForm, addSubmission} from '../../services/api';
+import fileManager from 'enketo-core/src/js/file-manager';
 import './XForm.css';
 
 let eform;
@@ -21,8 +23,20 @@ class XForm extends Component {
     event.preventDefault();
     const data = {
       form: this.state.formName,
-      content: getData(eform)
+      content: getData(eform),
+      // dataStr: eform.getDataStr() --- explore this???
     };
+    // console.log(data);
+    const files = fileManager.getCurrentFiles();
+    await Promise.all(files.map(blob => {
+      return Storage.put(blob.name, new File([blob], blob.name));
+    }));
+    // console.log('===============================================');
+    // console.log(eform.getDataStr());
+    // console.log('===============================================');
+    // console.log(files);
+    // console.log('===============================================');
+    // console.log(data.content);
     if(await addSubmission(data)) {
       this.props.history.push('/submissions');
     }
@@ -33,11 +47,18 @@ class XForm extends Component {
     const {form, model} = await getForm(formName);
     this.setState({form, model, loading: false, formName});
     const $html = $(form);
+    const instanceStr = bindDataToModel(model, {});
     const enketoOptions = {
       modelStr: model,
       instanceStr: bindDataToModel(model, {}),
       external: undefined
     };
+    // console.log(form);
+    // console.log('=====================================1');
+    // console.log(model);
+    // console.log('=====================================2');
+    // console.log(instanceStr);
+    // console.log('=====================================3');
     $('.container').replaceWith($html);
     const element = $('#form').find('form').first();
     eform = new Form(element, enketoOptions);

@@ -4,9 +4,15 @@ import {withRouter} from 'react-router-dom';
 import {getData} from '../../services/enketo';
 import EnketoForm from '../../services/enketo-form';
 import {getSubmission, updateSubmission} from '../../services/api';
+import { Storage } from 'aws-amplify';
+import fileManager from 'enketo-core/src/js/file-manager';
 import './XFormEdit.css';
 
 let eform;
+
+fileManager.getFileUrl = async (subject) => {
+  return await Storage.get(subject);
+};
 
 class XFormEdit extends Component {
   state = {loading: true, form: '', model: '', formName: null};
@@ -29,10 +35,18 @@ class XFormEdit extends Component {
     const {submissionId} = this.props.match.params;
     const {formName, form, model, content} = await getSubmission(submissionId);
     this.setState({formName, form, model, loading: false});
-    console.log('==============================================');
-    console.log(form);
-    console.log('==============================================');
     const $html = $(form);
+    // console.log('==============================================111');
+    // let a = $(form).find('a[download="ansible-for-devops-11_53_15.pdf"]:first');
+    // return $(form).find(`input[name="/${id}"]`).attr('type');
+    // console.log($(form).find('input[type="file"]').length);
+    // console.log($(form).find('a[class="btn-download"]').length);
+    // $(form).find('input[type="file"]').each(x => {
+    //   console.log($(x).siblings('.btn-download'))
+    // });
+    // return $(form).find(`input[name="/${id}"]`).attr('type');
+    // console.log(a);
+    // console.log('==============================================222');
     $('.container').replaceWith($html);
     const element = $('#form').find('form').first();
     eform = (new EnketoForm(element, model, content)).form;
