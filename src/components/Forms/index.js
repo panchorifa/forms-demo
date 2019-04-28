@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
 import Moment from 'react-moment';
 import {getForms, deleteForm} from '../../services/api';
+import './Forms.css';
 
 class Forms extends Component {
   state = {forms: [], loading: true};
@@ -33,7 +34,7 @@ class Forms extends Component {
         <div className="card-header card-header-inverse">
           <h4 className="card-header-title text-left">XForms</h4>
           <div className="card-header-btn">
-            <a href="#" data-toggle="card-expand" className="btn btn-success"><i className="fa fa-expand"></i></a>
+            <a data-toggle="card-expand" className="btn btn-success"><i className="fa fa-expand"></i></a>
             <a onClick={() => this.handleRefresh()} data-toggle="card-refresh" className="btn btn-warning"><i className="fa fa-redo"></i></a>
           </div>
         </div>

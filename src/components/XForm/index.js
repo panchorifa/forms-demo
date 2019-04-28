@@ -3,6 +3,7 @@ import {Form} from 'enketo-core/src/js/form';
 import {withRouter} from 'react-router-dom';
 import React, {Component} from "react"
 import {getData} from '../../services/enketo';
+import {bindDataToModel} from '../../services/enketo-form';
 import {getForm, addSubmission} from '../../services/api';
 import './XForm.css';
 
@@ -27,57 +28,16 @@ class XForm extends Component {
     }
   }
 
-  bindDataToModel(model, data) {
-    const xmlModel = $($.parseXML(model));
-    const bindRoot = xmlModel.find('model instance').children().first();
-    if (data) {
-      const bindJsonToXml = (elem, data, childMatcher) => {
-        const findCurrentElement = (elem, name, childMatcher) => {
-          return childMatcher ? elem.find(childMatcher(name)) : elem.children(name);
-        };
-        Object.keys(data).map(key => [key, data[key]])
-          .forEach(function(pair) {
-            const current = findCurrentElement(elem, pair[0], childMatcher);
-            const value = pair[1];
-            if (typeof value === 'object') {
-              if(current.children().length) {
-                bindJsonToXml(current, value);
-              } else {
-                current.text(value._id);
-              }
-            } else {
-              current.text(value);
-            }
-          });
-      };
-      bindJsonToXml(bindRoot, data, function(name) {
-        return '>%, >inputs>%'.replace(/%/g, name);
-      });
-    }
-    return new XMLSerializer().serializeToString(bindRoot[0]);
-  };
-
-  getFormName() {
-    let {pathname} = this.props.location;
-    return pathname.substr(pathname.lastIndexOf('/')+1);
-  }
-
   async componentDidMount() {
     const formName = this.props.match.params.form;
     const {form, model} = await getForm(formName);
     this.setState({form, model, loading: false, formName});
-    const content = {}
     const $html = $(form);
     const enketoOptions = {
       modelStr: model,
-      instanceStr: this.bindDataToModel(model, content),
+      instanceStr: bindDataToModel(model, {}),
       external: undefined
     };
-    console.log($html);
-    console.log('================================');
-    console.log(model);
-    console.log('================================');
-    console.log(content);
     $('.container').replaceWith($html);
     const element = $('#form').find('form').first();
     eform = new Form(element, enketoOptions);

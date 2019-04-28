@@ -10,6 +10,7 @@ import XFormEdit from '../XFormEdit';
 import XFormView from '../XFormView';
 import EForm from '../EForm';
 import EModel from '../EModel';
+import {NavLink} from 'react-router-dom';
 
 const Routes = () => (
   <Router>

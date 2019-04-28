@@ -55,4 +55,4 @@ const withElements = (nodes) => {
     .filter(function(n) {
       return n.nodeType === Node.ELEMENT_NODE;
     });
-}
+};

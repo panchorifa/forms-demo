@@ -5,15 +5,17 @@ import './Header.css';
 class Header extends Component {
   render() {
     return (
-      <div className="webxforms-header">
-        <header id="header" className="app-header">
+      <header id="header" className="app-header">
+        <div className="xforms-header">
           <button type="button" className="navbar-toggle navbar-toggle-minify" data-click="sidebar-minify">
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
           </button>
-        </header>
-        <NavLink to="/" className="navbar-brand">WEBXFORMS</NavLink>
-      </div>
+        </div>
+        <div className="xforms-brand">
+          <NavLink to="/" className="xbrand">WEBXFORMS</NavLink>
+        </div>
+      </header>
     )
   }
 }
