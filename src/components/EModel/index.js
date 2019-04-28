@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {getSubmission} from '../../services/api';
-import {getData} from '../../services/enketo';
+// import {getData} from '../../services/enketo';
 
 class EModel extends Component {
   state = {submission: null, form: null, model: null};

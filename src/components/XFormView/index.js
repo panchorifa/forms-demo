@@ -29,16 +29,27 @@ const getValues = (content, context, values=[]) => {
 
 // console.log($(form).find('*[data-itext-id="/access/Group_ID/ID_FirstName:label"]').text());
                           // *[data-itext-id="access/Group_ID/ID_FirstName:label"]
+                                                  
 const getLabel = (form, pair) => {
   let id = pair[0];
+  let value = pair[1];
   let label = $(form).find(`*[data-itext-id="/${id}:label"]`).text();
   if(label === 'Yes/No') {
-    if(pair[0].endsWith('Present')) {
-      id = pair[0].substring(0, pair[0].indexOf('Present')) + 'Label';
+    if(id.endsWith('Present')) {
+      id = id.substring(0, id.indexOf('Present')) + 'Label';
     }
     label = $(form).find(`*[data-itext-id="/${id}:label"]`).text();
+  } else {
+    // Check for radio buttons
+    const inputType = $(form).find(`input[name="/${id}"]`).attr('type');
+    if(inputType === 'radio' && !['Y', 'N'].includes(value)) {
+      // console.log(inputType);
+      console.log(`*[data-itext-id="/${id}/${value}"]`);
+      value = $(form).find(`*[data-itext-id="/${id}/${value}:label"]`).text();
+    }
   }
-  return [label || id, pair[1], id];
+  value = value === 'Y' ? 'Yes' : value === 'N' ? 'No' : value;
+  return [label || id, value, id];
 };
 
 class XFormView extends Component {
@@ -66,9 +77,10 @@ class XFormView extends Component {
 					  <div key={`field${idx}`} className="list-group-item text-left">
               {r[2]}
               <br/>
+
               {r[0]}
-              <br/>
-              <div className="xvalue"><b>{r[1]}</b></div></div>
+              <div className="xvalue"><b>{r[1]}</b></div>
+            </div>
           )}
 				</div>
 			</div>
@@ -81,3 +93,6 @@ export default XFormView;
 // {content[field].length > 1 && Object.keys(content[field]).map((subfield, subIdx) =>
 //   <div key={`field${idx}-${subIdx}`} className="list-group-item text-left"> >> {subfield}</div>
 // )}
+
+// {r[2]}
+// <br/>
